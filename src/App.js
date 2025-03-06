@@ -1,161 +1,111 @@
-import React, { useState, useEffect } from 'react'
-import SabpaisaPaymentGateway from './SabpaisaPaymentGateway';
+import React, { useState } from "react";
+import SabpaisaPaymentGateway from "./SabpaisaPaymentGateway";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is included
 
-const App = (props) => {
-
+const App = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [payerName, setPayerName] = useState("Anand Kumar Shaw");
-  const [payerEmail, setPayerEmail] = useState("anand.kumar@sabpaisa.in");
-  const [payerMobile, setPayerMobile] = useState("6291312929");
-  const [amount, setAmount] = useState(8625);
+  const [payerName, setPayerName] = useState("");
+  const [payerEmail, setPayerEmail] = useState("");
+  const [payerMobile, setPayerMobile] = useState("");
+  const [amount, setAmount] = useState();
   const [clientCode, setClientCode] = useState("TM001");
-  const [payerAddress, setPayerAddress] = useState("Bangalore");
+  const [payerAddress, setPayerAddress] = useState("");
   const [transUserName, setTransUserName] = useState("spuser_2013");
   const [clientTxnId, setclientTxnId] = useState("3828972293337345");
   const [transUserPassword, setTransUserPassword] = useState("RIADA_SP336");
   const [authkey, setAuthkey] = useState("kaY9AIhuJZNvKGp2");
   const [authiv, setAuthiv] = useState("YN2v8qQcU3rGfA1y");
-  const [callbackUrl, setCallbackUrl] = useState("http://localhost:3000/response");
-  const [data, setData] = useState(null)
-  const [udf1, setudf1] = useState(null);
-  const [udf2, setudf2] = useState(null);
-  const [udf3, setudf3] = useState(null);
-  const [udf4, setudf4] = useState(null);
-  const [udf5, setudf5] = useState(null);
-  const [udf6, setudf6] = useState(null);
-  const [udf7, setudf7] = useState(null);
-  const [udf8, setudf8] = useState(null);
-  const [udf9, setudf9] = useState(null);
-  const [udf10, setudf10] = useState(null);
-  const [udf11, setudf11] = useState(null);
-  const [udf12, setudf12] = useState(null); // client id
-  const [udf13, setudf13] = useState(null); // plan id
-  const [udf14, setudf14] = useState(null); // plan name
-  const [udf15, setudf15] = useState(null); // application id (product id)
-  const [udf16, setudf16] = useState(null); // client subscribe plan detail id(refer to DB)
-  const [udf17, setudf17] = useState(null); // payment from the COB portal
-  const [udf18, setudf18] = useState(null);
-  const [udf19, setudf19] = useState(null);
-  const [udf20, setudf20] = useState(null);
-  const [channelId, setchannelId] = useState(null);
-  const [programId, setprogramId] = useState(null);
-  const [mcc, setmcc] = useState(null);
-  const [amountType, setamountType] = useState(null);
+  const [callbackUrl, setCallbackUrl] = useState("");
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     setIsOpen(true);
-    e.preventDefault()
-    const btn = document.getElementById('renderSabPaisa');
-    btn.click();
-  }
-
+    document.getElementById("renderSabPaisa").click();
+  };
 
   return (
-    <div className="container-fluid">
-      <form className='xyz' onSubmit={handleSubmit}>
-        <div className="wrapper">
-          <div className="row">
-            <div className="text-center mt-3">
-              <h2 className='text-success'>SabPaisa Payment</h2>
-            </div>
-          </div>
-          <div id='renderSabPaisa'></div>
-          <div className="row mt-3">
-            <div className="form-group"></div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Name : </label> <br />
-              <input type="text" placeholder='Name :' value={payerName} onChange={(e) => setPayerName(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Email : </label> <br />
-              <input type="text" placeholder='Email :' value={payerEmail} onChange={(e) => setPayerEmail(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Phone : </label> <br />
-              <input type="text" placeholder='Phone :' value={payerMobile} onChange={(e) => setPayerMobile(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Amount : </label> <br />
-              <input type="text" placeholder='Amount :' value={amount} onChange={(e) => setAmount(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Client Code : </label> <br />
-              <input type="text" placeholder='Client Code :' value={clientCode} onChange={(e) => setClientCode(e.target.value)} />
+    <div className="container mt-3">
+      <div className="row justify-content-center">
+        <div className="col-md-12">
+          <div className="card shadow-lg p-4">
+            <div className="text-center">
+              <h2 className="text-success">SabPaisa Payment Gateway</h2>
+              <p className="text-muted text-xs">Secure Payment Gateway</p>
             </div>
 
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Trnx User Name : </label> <br />
-              <input type="text" placeholder='Trnx User Name :' value={transUserName} onChange={(e) => setTransUserName(e.target.value)} />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                {/* Payer Details */}
+                <div className="col-md-6 mb-3">
+                  <label>Name</label>
+                  <input type="text" className="form-control" value={payerName} onChange={(e) => setPayerName(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Email</label>
+                  <input type="email" className="form-control" value={payerEmail} onChange={(e) => setPayerEmail(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Phone</label>
+                  <input type="tel" className="form-control" value={payerMobile} onChange={(e) => setPayerMobile(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Amount</label>
+                  <input type="number" className="form-control" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                </div>
 
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Trnx User Password : </label> <br />
-              <input type="text" placeholder='Trnx User Password :' value={transUserPassword} onChange={(e) => setTransUserPassword(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Auth Key : </label> <br />
-              <input type="text" placeholder='Auth Key :' value={authkey} onChange={(e) => setAuthkey(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Auth IV : </label> <br />
-              <input type="text" placeholder='Auth IV :' value={authiv} onChange={(e) => setAuthiv(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Client Trnx Id : </label> <br />
-              <input type="text" placeholder='Client Trnx Id :' value={clientTxnId} onChange={(e) => setclientTxnId(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor=""> Address : </label> <br />
-              <input type="text" placeholder='Address :' value={payerAddress} onChange={(e) => setPayerAddress(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Callback Url : </label> <br />
-              <input type="text" placeholder='Callback Url :' value={callbackUrl} onChange={(e) => setCallbackUrl(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Data : </label> <br />
-              <input type="text" placeholder='Data :' value={data} onChange={(e) => setData(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Udf1 : </label> <br />
-              <input type="text" placeholder='Udf 1 :' value={udf1} onChange={(e) => setudf1(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Udf 2 : </label> <br />
-              <input type="text" placeholder='Udf 2 :' value={udf2} onChange={(e) => setudf2(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Udf 3 : </label> <br />
-              <input type="text" placeholder='Udf 3 :' value={udf3} onChange={(e) => setudf3(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Channel ID : </label> <br />
-              <input type="text" placeholder='Channel Id :' value={channelId} onChange={(e) => setchannelId(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Program ID : </label> <br />
-              <input type="text" placeholder='Program Id :' value={programId} onChange={(e) => setprogramId(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > MCC : </label> <br />
-              <input type="text" placeholder='MCC :' value={mcc} onChange={(e) => setmcc(e.target.value)} />
-            </div>
-            <div className="col-md-3 mb-3">
-              <label htmlFor="" > Account Type : </label> <br />
-              <input type="text" placeholder='Account Type :' value={amountType} onChange={(e) => setamountType(e.target.value)} />
-            </div>
-          </div>
-          <div className="row mt-5 text-center">
-            <div>
-              <button type="submit" value="Submit" className="xyz btn btn-success mb-5">Proceed To Pay</button>
-            </div>
+                {/* Transaction Details */}
+                <div className="col-md-6 mb-3">
+                  <label>Client Code</label>
+                  <input type="text" className="form-control" value={clientCode} onChange={(e) => setClientCode(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Transaction User Name</label>
+                  <input type="text" className="form-control" value={transUserName} onChange={(e) => setTransUserName(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Transaction Password</label>
+                  <input type="password" className="form-control" value={transUserPassword} onChange={(e) => setTransUserPassword(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Client Transaction ID</label>
+                  <input type="text" className="form-control" value={clientTxnId} onChange={(e) => setclientTxnId(e.target.value)} />
+                </div>
+
+                {/* Security & Address */}
+                <div className="col-md-6 mb-3">
+                  <label>Auth Key</label>
+                  <input type="text" className="form-control" value={authkey} onChange={(e) => setAuthkey(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Auth IV</label>
+                  <input type="text" className="form-control" value={authiv} onChange={(e) => setAuthiv(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Address</label>
+                  <input type="text" className="form-control" value={payerAddress} onChange={(e) => setPayerAddress(e.target.value)} />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <label>Callback URL</label>
+                  <input type="url" className="form-control" value={callbackUrl} onChange={(e) => setCallbackUrl(e.target.value)} />
+                </div>
+              </div>
+
+              {/* Payment Button */}
+              <div className="text-center mt-4">
+                <button type="submit" className="btn btn-success btn-lg px-4">
+                  Proceed to Pay
+                </button>
+              </div>
+            </form>
+
+            <div id="renderSabPaisa"></div>
           </div>
         </div>
-        <SabpaisaPaymentGateway payerName={payerName} payerEmail={payerEmail} payerMobile={payerMobile} isOpen={isOpen} />
-      </form>
+      </div>
 
+      <SabpaisaPaymentGateway payerName={payerName} payerEmail={payerEmail} payerMobile={payerMobile} isOpen={isOpen} />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
